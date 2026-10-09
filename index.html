@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#0f3b2e" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f3b2e'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23fff'%3E%E2%98%95%3C/text%3E%3C/svg%3E" />
+<title>野火咖啡 · 点单 Demo</title>
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<link rel="stylesheet" href="assets/css/pages.css" />
+</head>
+<body>
+
+<div class="device-stage">
+  <div class="device" id="device">
+
+    <!-- ============ 页面容器 ============ -->
+    <main class="viewport" id="viewport">
+
+      <!-- ---------- 首页 ---------- -->
+      <section class="page page--tab" data-page="home" id="page-home">
+        <div class="scroll" id="home-scroll">
+          <!-- 品牌字标区：衬线 Logo + 印章徽章 -->
+          <header class="brand-head">
+            <div class="brand-head__left">
+              <h1 class="brand-head__logo">Wildfire</h1>
+              <p class="brand-head__caption">COFFEE &amp; DINER</p>
+            </div>
+            <div class="brand-head__stamp">
+              <b>野火咖啡</b>
+              <i>炙烤焙香</i>
+            </div>
+          </header>
+
+          <!-- 大轮播（照片背景 + 文案叠加） -->
+          <div class="banner" id="banner"></div>
+
+          <!-- 门店信息卡 -->
+          <div class="store-card">
+            <div class="store-card__top">
+              <h2 class="store-card__name">野火咖啡</h2>
+              <span class="store-card__pin" data-icon="cup" data-size="17"></span>
+            </div>
+            <p class="store-card__meta">营业中 08:00–20:00</p>
+            <button class="store-card__cta" data-goto-menu>
+              <span class="store-card__cta-icon" data-icon="cup" data-size="17"></span>
+              <span class="store-card__cta-text"><b>到店自取</b><i>提前点单，到店即取</i></span>
+              <span class="store-card__cta-arrow" data-icon="arrow" data-size="15"></span>
+            </button>
+          </div>
+
+          <!-- 招牌商品（沿用现有商品图） -->
+          <div class="home-sec">
+            <div class="home-sec__left">
+              <h2 class="home-sec__title">招牌，值得再来</h2>
+              <p class="home-sec__en">HOUSE FAVOURITES</p>
+            </div>
+            <button class="home-sec__link" data-goto-menu>全部菜单 ›</button>
+          </div>
+          <div class="goods-grid" id="home-goods"></div>
+
+          <!-- 活动条 -->
+          <div class="promo-strip">
+            <span class="promo-strip__badge"><b>2–5</b><i>午后时光</i></span>
+            <div class="promo-strip__body">
+              <p class="promo-strip__title">咖啡配甜点，第二件半价</p>
+              <p class="promo-strip__sub">工作日 14:00–17:00 · 到店享用</p>
+              <button class="promo-strip__link" data-promo-rule>查看活动规则 →</button>
+            </div>
+          </div>
+          <div class="list-footer">— 已经到底了 —</div>
+        </div>
+      </section>
+
+      <!-- ---------- 点单页 ---------- -->
+      <section class="page page--tab" data-page="menu" id="page-menu">
+        <div class="menu-body">
+          <nav class="cat-rail" id="cat-rail"></nav>
+          <div class="menu-main">
+            <div class="scroll" id="menu-scroll">
+              <div id="menu-groups"></div>
+              <div class="list-footer">每一份，都为你现做。</div>
+            </div>
+          </div>
+        </div>
+        <!-- 购物车悬浮条 -->
+        <div class="cart-bar" id="cart-bar" hidden>
+          <div class="cart-bar__left">
+            <span class="cart-bar__icon" data-icon="cart"></span>
+            <span class="cart-bar__badge" id="cart-bar-badge">0</span>
+            <div class="cart-bar__meta">
+              <span class="cart-bar__total" id="cart-bar-total">¥0</span>
+              <span class="cart-bar__tip" id="cart-bar-tip">到店自取</span>
+            </div>
+          </div>
+          <button class="btn btn--primary btn--pill" id="btn-checkout">去结算</button>
+        </div>
+      </section>
+
+      <!-- ---------- 结算页 ---------- -->
+      <section class="page page--push" data-page="checkout" id="page-checkout">
+        <header class="nav-bar">
+          <button class="nav-bar__back" data-back><span data-icon="back"></span></button>
+          <h1 class="nav-bar__title">确认订单</h1>
+          <span class="nav-bar__right"></span>
+        </header>
+        <div class="scroll" id="checkout-scroll">
+          <div class="addr-card">
+            <div class="addr-card__icon" data-icon="cup"></div>
+            <div class="addr-card__body">
+              <p class="addr-card__name">野火咖啡 · 到店自取</p>
+              <p class="addr-card__time">预计 8 分钟做好</p>
+            </div>
+          </div>
+
+          <div class="order-block">
+            <div class="order-block__head">
+              <span class="order-block__shop">野火咖啡</span>
+              <span class="order-block__type">自取</span>
+            </div>
+            <div id="checkout-items"></div>
+            <div class="order-block__row">
+              <span>备注</span>
+              <input class="order-block__input" id="checkout-note" placeholder="口味、打包等要求（选填）" maxlength="30" />
+            </div>
+          </div>
+
+          <div class="order-block">
+            <div class="order-block__title">优惠</div>
+            <button class="order-block__row coupon-pick" id="btn-coupon" type="button">
+              <span>优惠券</span>
+              <span class="coupon-pick__right">
+                <span class="coupon-pick__value" id="coupon-value">暂无可用</span>
+                <span class="coupon-pick__arrow" data-icon="arrow" data-size="14"></span>
+              </span>
+            </button>
+            <div class="order-block__row"><span>商品小计</span><b id="fee-subtotal">¥0</b></div>
+            <div class="order-block__row"><span>优惠券抵扣</span><b class="text-green" id="fee-discount">-¥0</b></div>
+            <div class="order-block__row"><span>打包费</span><b id="fee-pack">¥0</b></div>
+          </div>
+
+          <div class="order-block">
+            <div class="order-block__title">支付方式</div>
+            <div class="pay-methods" id="pay-methods">
+              <button class="pay-method is-active" data-pay="balance" type="button">
+                <span class="pay-method__icon" data-icon="wallet"></span>
+                <span class="pay-method__label">储值支付</span>
+                <span class="pay-method__hint" id="pay-balance-hint">余额 ¥32.5</span>
+                <span class="pay-method__radio"></span>
+              </button>
+              <button class="pay-method" data-pay="wechat" type="button">
+                <span class="pay-method__icon" data-icon="wechat"></span>
+                <span class="pay-method__label">微信支付</span>
+                <span class="pay-method__hint">推荐</span>
+                <span class="pay-method__radio"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <footer class="pay-bar">
+          <div class="pay-bar__left">
+            <span class="pay-bar__label">合计</span>
+            <span class="pay-bar__amount" id="checkout-total">¥0</span>
+            <span class="pay-bar__hint" id="checkout-hint">已优惠 ¥0</span>
+          </div>
+          <button class="btn btn--primary" id="btn-submit-order">提交订单</button>
+        </footer>
+      </section>
+
+      <!-- ---------- 订单页 ---------- -->
+      <section class="page page--push" data-page="order" id="page-order">
+        <header class="nav-bar nav-bar--dark">
+          <button class="nav-bar__back" data-back><span data-icon="back"></span></button>
+          <h1 class="nav-bar__title">订单详情</h1>
+          <span class="nav-bar__right"></span>
+        </header>
+        <div class="scroll" id="order-scroll">
+          <div id="order-status-card"></div>
+          <div id="order-detail"></div>
+          <div class="order-timeline-wrap" id="order-timeline-wrap"></div>
+        </div>
+      </section>
+
+      <!-- ---------- 历史订单 ---------- -->
+      <section class="page page--push" data-page="history" id="page-history">
+        <header class="nav-bar">
+          <button class="nav-bar__back" data-back><span data-icon="back"></span></button>
+          <h1 class="nav-bar__title">历史订单</h1>
+          <span class="nav-bar__right"></span>
+        </header>
+        <div class="scroll" id="history-scroll">
+          <div id="history-list"></div>
+          <div class="list-footer">— 没有更多订单了 —</div>
+        </div>
+      </section>
+
+      <!-- ---------- 我的 ---------- -->
+      <section class="page page--tab" data-page="mine" id="page-mine">
+        <header class="mine-hero" id="mine-hero"></header>
+        <div class="scroll" id="mine-scroll">
+          <div class="mine-stats" id="mine-stats"></div>
+          <div class="menu-list" id="mine-orders"></div>
+          <div class="list-footer">Demo 版本 · 数据均为本地模拟</div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ============ 底部 Tab 栏 ============ -->
+    <nav class="tab-bar" id="tab-bar">
+      <button class="tab-item is-active" data-tab="home">
+        <span class="tab-item__icon" data-icon="tab-home"></span>
+        <span class="tab-item__text">首页</span>
+      </button>
+      <button class="tab-item" data-tab="menu">
+        <span class="tab-item__icon" data-icon="tab-menu"></span>
+        <span class="tab-item__text">点单</span>
+        <span class="tab-badge" id="tab-cart-badge" hidden>0</span>
+      </button>
+      <button class="tab-item" data-tab="mine">
+        <span class="tab-item__icon" data-icon="tab-mine"></span>
+        <span class="tab-item__text">我的</span>
+      </button>
+    </nav>
+
+    <!-- ============ 规格选择弹层 ============ -->
+    <div class="mask" id="mask" hidden></div>
+
+    <section class="sheet sheet--spec" id="spec-sheet" hidden aria-hidden="true">
+      <div class="sheet__handle"></div>
+      <div class="spec-head">
+        <div class="spec-head__img" id="spec-img"></div>
+        <div class="spec-head__info">
+          <h3 class="spec-head__name" id="spec-name"></h3>
+          <p class="spec-head__desc" id="spec-desc"></p>
+          <div class="spec-head__price"><b id="spec-price"></b><span class="spec-head__unit">起</span></div>
+        </div>
+        <button class="sheet__close" data-close-sheet><span data-icon="close"></span></button>
+      </div>
+      <div class="sheet__body">
+        <div class="spec-group" data-group="size">
+          <div class="spec-group__title"><span id="spec-size-title">杯型</span><em>必选</em></div>
+          <div class="spec-opts" id="spec-sizes"></div>
+        </div>
+        <div class="spec-group" data-group="temp">
+          <div class="spec-group__title"><span>温度</span><em>必选</em></div>
+          <div class="spec-opts" id="spec-temps"></div>
+        </div>
+        <div class="spec-group" data-group="extra">
+          <div class="spec-group__title"><span>加料</span><em class="em--optional">可选 · 多选</em></div>
+          <div class="spec-opts" id="spec-extras"></div>
+        </div>
+        <div class="spec-group spec-group--qty">
+          <div class="spec-group__title"><span>数量</span></div>
+          <div class="stepper">
+            <button class="stepper__btn" data-step="-1"><span data-icon="minus"></span></button>
+            <span class="stepper__num" id="spec-qty">1</span>
+            <button class="stepper__btn" data-step="1"><span data-icon="plus"></span></button>
+          </div>
+        </div>
+      </div>
+      <footer class="sheet__footer">
+        <div class="sheet__total">合计 <b id="spec-total">¥0</b></div>
+        <button class="btn btn--primary btn--block" id="btn-add-cart">加入购物车</button>
+      </footer>
+    </section>
+
+    <!-- ============ 购物车弹层 ============ -->
+    <section class="sheet sheet--cart" id="cart-sheet" hidden aria-hidden="true">
+      <div class="sheet__handle"></div>
+      <div class="cart-head">
+        <h3>已选商品</h3>
+        <button class="link-btn" id="btn-clear-cart">清空</button>
+        <button class="sheet__close" data-close-sheet><span data-icon="close"></span></button>
+      </div>
+      <div class="sheet__body sheet__body--cart">
+        <div id="cart-items"></div>
+        <div class="cart-empty" id="cart-empty" hidden>
+          <span data-icon="cart-empty"></span>
+          <p>购物车还是空的</p>
+          <button class="btn btn--outline" id="btn-cart-go">去点单</button>
+        </div>
+      </div>
+      <footer class="sheet__footer">
+        <div class="sheet__total">合计 <b id="cart-total">¥0</b></div>
+        <button class="btn btn--primary btn--block" id="btn-cart-checkout">去结算</button>
+      </footer>
+    </section>
+
+    <!-- ============ 优惠券选择弹层 ============ -->
+    <section class="sheet sheet--coupon" id="coupon-sheet" hidden aria-hidden="true">
+      <div class="sheet__handle"></div>
+      <div class="cart-head">
+        <h3>选择优惠券</h3>
+        <span class="coupon-sheet__count" id="coupon-sheet-count">0 张可用</span>
+        <button class="sheet__close" data-close-sheet><span data-icon="close"></span></button>
+      </div>
+      <div class="sheet__body sheet__body--coupon" id="coupon-list"></div>
+      <footer class="sheet__footer">
+        <button class="btn btn--outline btn--block" id="btn-coupon-none">不使用优惠券</button>
+        <button class="btn btn--primary btn--block" id="btn-coupon-confirm">确定</button>
+      </footer>
+    </section>
+
+    <!-- ============ Toast ============ -->
+    <div class="toast" id="toast" hidden></div>
+
+    <!-- ============ 支付中遮罩 ============ -->
+    <div class="pay-mask" id="pay-mask" hidden>
+      <div class="pay-mask__box">
+        <span class="spinner"></span>
+        <p id="pay-mask-text">支付处理中…</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/icons.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
